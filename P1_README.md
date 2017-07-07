@@ -22,7 +22,7 @@
 
 [//]: # (Image References)
 
-[image0]: ./misc/simulator.png
+[image0]: ./misc/Simulator.png
 [image1]: ./misc/rover_image.jpg
 [image2]: ./calibration_images/example_grid1.jpg
 [image3]: ./calibration_images/example_rock1.jpg 
