@@ -97,28 +97,7 @@ def find_rocks(img, levels=(110,110,50)):
 
 # Apply the above functions in succession and update the Rover state accordingly
 def perception_step(Rover):
-    # Perform perception steps to update Rover()
-    # TODO: 
-    # NOTE: camera image is coming to you in Rover.img
-    # 1) Define source and destination points for perspective transform
-    # 2) Apply perspective transform
-    # 3) Apply color threshold to identify navigable terrain/obstacles/rock samples
-    # 4) Update Rover.vision_image (this will be displayed on left side of screen)
-        # Example: Rover.vision_image[:,:,0] = obstacle color-thresholded binary image
-        #          Rover.vision_image[:,:,1] = rock_sample color-thresholded binary image
-        #          Rover.vision_image[:,:,2] = navigable terrain color-thresholded binary image
-
-    # 5) Convert map image pixel values to rover-centric coords
-    # 6) Convert rover-centric pixel values to world coordinates
-    # 7) Update Rover worldmap (to be displayed on right side of screen)
-        # Example: Rover.worldmap[obstacle_y_world, obstacle_x_world, 0] += 1
-        #          Rover.worldmap[rock_y_world, rock_x_world, 1] += 1
-        #          Rover.worldmap[navigable_y_world, navigable_x_world, 2] += 1
-
-    # 8) Convert rover-centric pixel positions to polar coordinates
-    # Update Rover pixel distances and angles
-        # Rover.nav_dists = rover_centric_pixel_distances
-        # Rover.nav_angles = rover_centric_angles
+   
     image = Rover.img
     dst_size = 5
     bottom_offset = 6
@@ -134,9 +113,11 @@ def perception_step(Rover):
     threshed = color_thresh(warped)
     obs_map = np.absolute(np.float32(threshed)-1)*mask
     
+    
+    #the worldmap will get updated if the rover's roll and pitch are within limits
     roll_limit = 0.25
     pitch_limit = 0.25
-    # Don`t map if roll or pitch are too large (to increase fidelity)
+    
     if Rover.roll < roll_limit or Rover.roll > 360 - roll_limit:
         if Rover.pitch < pitch_limit or Rover.pitch > 360 - pitch_limit:
             Rover.vision_image[:,:,2] = threshed*255
@@ -176,7 +157,6 @@ def perception_step(Rover):
         rock_ycen = rock_y_world[rock_idx]
         Rover.rock_dists = rock_dist
         Rover.rock_ang = rock_ang
-        print(Rover.rock_ang)
         Rover.worldmap[rock_ycen,rock_xcen,1] = 255
         Rover.vision_image[:,:,1] = rock_map*255
         
